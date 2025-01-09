@@ -18,7 +18,7 @@ sudo chmod +x build.sh &&
 sudo chmod +x configure.sh &&
 sudo chmod +x autogen.sh &&
 echo -e "\n--------------------------------\n Running build script...        \n--------------------------------\n" &&
-./build.sh &&
+CXX=clang++ CC=clang ./build.sh &&
 echo -e "\n--------------------------------\n Creating config directory...   \n--------------------------------\n" &&
 mkdir ~/.ccminer &&
 echo -e "\n--------------------------------\n Creating config file...        \n--------------------------------\n" &&
