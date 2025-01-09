@@ -21,7 +21,7 @@ echo -e "\n------------------------\nRunning build script...\n------------------
 echo -e "\n------------------------\nCreating config directory...\n------------------------\n" &&
 mkdir ~/.ccminer &&
 echo -e "\n------------------------\nCreating config file...\n------------------------\n" &&
-echo -e "{\n\t\"_note\": \"Custom Configuration: SprengerV\",\n\n\t\"pools\":[{\n\t\t\"name\": \"Verus Community Pool\",\n\t\t\"url\": \"stratum+tcp://pool.verus.io:9999\",\n\t\t\"usr\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t}],\n\n\t\"algo\": \"verus\",\n\t\"threads\": $(( $(nproc) - 2 )),\n\n\t\"timeout\": 60,\n\n\t\"api-bind\": \"0.0.0.0\",\n\t\"api-remote\": true,\n\n\t\"no-gbt\": true\n}" > ~/.ccminer/ccminer.conf &&
+echo -e "{\n\t\"_note\": \"Custom Configuration: SprengerV\",\n\n\t\"pools\":[{\n\t\t\"name\": \"Verus Community Pool\",\n\t\t\"url\": \"stratum+tcp://pool.verus.io:9999\",\n\t\t\"user\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t},\n\t{\n\t\t\"name\": \"Luck Pool\",\n\t\t\"url\": \"stratum+tcp://na.luckpool.net:3957\",\n\t\t\"user\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t}],\n\n\t\"algo\": \"verus\",\n\t\"threads\": $(( $(nproc) - 2 )),\n\n\t\"timeout\": 60,\n\n\t\"api-bind\": \"0.0.0.0\",\n\t\"api-remote\": true,\n\n\t\"no-gbt\": true\n}" > ~/.ccminer/ccminer.conf &&
 echo -e "\n------------------------\nCreating mining script...\n------------------------\n" &&
 echo -e "#!/bin/bash\n\n$(pwd)/ccminer -c ~/.ccminer/ccminer.conf" > mine.sh &&
 echo -e "\n------------------------\nChanging script permissions\n------------------------\n" &&
