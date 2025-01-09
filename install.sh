@@ -1,33 +1,37 @@
 #!/bin/bash
 
-echo -e "\n------------------------\nUpdating system...\n------------------------\n" &&
+announce() {
+    echo '\n--------------------------------\n $1 \n--------------------------------\n' &&
+}
+
+announce 'Updating system...            ' &&
 sudo apt-get update &&
-echo -e "\n------------------------\nBeginning system upgrade...\n------------------------\n" &&
+announce 'Beginning system upgrade...   ' &&
 sudo apt-get upgrade -y &&
-echo -e "\n------------------------\nInstalling dependencies...\n------------------------\n" &&
+announce 'Installing dependencies...    ' &&
 sudo apt-get install nano git libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential -y &&
-echo -e "\n------------------------\nMoving to src directory...\n------------------------\n" &&
+announce 'Moving to src directory...    ' &&
 cd /usr/src &&
-echo -e "\n------------------------\nCloning git repo...\n------------------------\n" &&
+announce 'Cloning git repo...           ' &&
 git clone --single-branch -b ARM https://github.com/monkins1010/ccminer.git &&
-echo -e "\n------------------------\nMoving to ccminer directory...\n------------------------\n" &&
+announce 'Moving to ccminer directory...' &&
 cd ccminer &&
-echo -e "\n------------------------\nChanging permissions...\n------------------------\n" &&
+announce 'Changing permissions...       ' &&
 sudo chmod +x build.sh &&
 sudo chmod +x configure.sh &&
 sudo chmod +x autogen.sh &&
-echo -e "\n------------------------\nRunning build script...\n------------------------\n" &&
+announce 'Running build script...       ' &&
 ./build.sh &&
-echo -e "\n------------------------\nCreating config directory...\n------------------------\n" &&
+announce 'Creating config directory...  ' &&
 mkdir ~/.ccminer &&
-echo -e "\n------------------------\nCreating config file...\n------------------------\n" &&
-echo -e "{\n\t\"_note\": \"Custom Configuration: SprengerV\",\n\n\t\"pools\":[{\n\t\t\"name\": \"Verus Community Pool\",\n\t\t\"url\": \"stratum+tcp://pool.verus.io:9999\",\n\t\t\"user\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t},\n\t{\n\t\t\"name\": \"Luck Pool\",\n\t\t\"url\": \"stratum+tcp://na.luckpool.net:3957\",\n\t\t\"user\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t}],\n\n\t\"algo\": \"verus\",\n\t\"threads\": $(( $(nproc) - 2 )),\n\n\t\"timeout\": 60,\n\n\t\"api-bind\": \"0.0.0.0\",\n\t\"api-remote\": true,\n\n\t\"no-gbt\": true\n}" > ~/.ccminer/ccminer.conf &&
-echo -e "\n------------------------\nCreating mining script...\n------------------------\n" &&
-echo -e "#!/bin/bash\n\n$(pwd)/ccminer -c ~/.ccminer/ccminer.conf" > mine.sh &&
-echo -e "\n------------------------\nChanging script permissions\n------------------------\n" &&
+announce 'Creating config file...       ' &&
+echo -e '{\n\t"_note": "Custom Configuration: SprengerV",\n\n\t"pools":[{\n\t\t"name": "Verus Community Pool",\n\t\t"url": "stratum+tcp://pool.verus.io:9999",\n\t\t"user": "RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone",\n\t\t"pass": "x"\n\t},\n\t{\n\t\t"name": "Luck Pool",\n\t\t"url": "stratum+tcp://na.luckpool.net:3957",\n\t\t"user": "RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone",\n\t\t"pass": "x"\n\t}],\n\n\t"algo": "verus",\n\t"threads": $(( $(nproc) - 2 )),\n\n\t"timeout": 60,\n\n\t"api-bind": "0.0.0.0",\n\t"api-remote": true,\n\n\t"no-gbt": true\n}' > ~/.ccminer/ccminer.conf &&
+announce 'Creating mining script...     ' &&
+echo -e '#!/bin/bash\n\n$(pwd)/ccminer -c ~/.ccminer/ccminer.conf' > mine.sh &&
+announce 'Changing script permissions...' &&
 sudo chmod +x mine.sh &&
-echo -e "\n------------------------\nInstalling script...\n------------------------\n" &&
+announce 'Installing script...          ' &&
 sudo cp mine.sh /usr/local/bin/mine &&
-echo -e "\n------------------------\nReturning to HOME...\n------------------------\n" &&
+announce 'Returning to HOME...          ' &&
 cd ~ &&
 echo -e "Miner installed. To begin, type \"mine\"."
