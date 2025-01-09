@@ -26,6 +26,6 @@ echo -e "\n------------------------\nCreating mining script...\n----------------
 echo -e "#!/bin/bash\n\n$(pwd)/ccminer -c ~/.ccminer/ccminer.conf" > mine.sh &&
 echo -e "\n------------------------\nInstalling script...\n------------------------\n" &&
 sudo cp mine.sh /usr/local/bin/mine &&
-echo -e "\n------------------------\nReturning to HOME...\n------------------------\n
+echo -e "\n------------------------\nReturning to HOME...\n------------------------\n" &&
 cd ~ &&
 echo -e "Miner installed. To begin, type \"mine\"."
