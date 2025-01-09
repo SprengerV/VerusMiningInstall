@@ -24,6 +24,8 @@ echo -e "\n------------------------\nCreating config file...\n------------------
 echo -e "{\n\t\"_note\": \"Custom Configuration: SprengerV\",\n\t\"pools\":\[\{\n\t\t\"name\": \"Verus Community Pool\",\n\t\t\"url\": \"stratum+tcp://pool.verus.io:9999\",\n\t\t\"usr\": \"RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG.NewPhone\",\n\t\t\"pass\": \"x\"\n\t\}\],\n\n\t\"algp\": \"verus\",\n\t\"threads\": $( $(nproc) - 2 ),\n\n\t\"timeout\": 60,\n\n\t\"api-bind\": \"0.0.0.0\",\n\t\"api-remote\": true,\n\n\t\"no-gbt\": true\n\}" > ~/.ccminer/ccminer.conf &&
 echo -e "\n------------------------\nCreating mining script...\n------------------------\n" &&
 echo -e "#!/bin/bash\n\n$(pwd)/ccminer -c ~/.ccminer/ccminer.conf" > mine.sh &&
+echo -e "\n------------------------\nChanging script permissions\n------------------------\n" &&
+sudo chmod +x mine.sh &&
 echo -e "\n------------------------\nInstalling script...\n------------------------\n" &&
 sudo cp mine.sh /usr/local/bin/mine &&
 echo -e "\n------------------------\nReturning to HOME...\n------------------------\n" &&
