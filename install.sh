@@ -2,6 +2,7 @@
 
 WALLET="RXbFFysmgJD5npM8HJVnqaXsJ8xBde7QcG"
 WORKER="NewPhone"
+THREADS=`$(( $(nproc) - 2 ))`
 
 announce() {
     echo -e "\n--------------------------------\n $1 \n--------------------------------\n"
@@ -31,23 +32,30 @@ announce   'Running build script...       '                           &&
 ./build.sh                                                            &&
 announce   'Creating config directory...  '                           &&
 mkdir      ~/.ccminer                                                 &&
-announce   'Creating config file...       '                           &&
+announce   'Creating config files...      '                           &&
 echo       -e '{\n\t"_note": "Custom Configuration: SprengerV",\n\n\t"'\
     'pools":[{\n\t\t"name": "Verus Community Pool",\n\t\t"url": "strat'\
     'um+tcp://pool.verus.io:9999",\n\t\t"user": "'$WALLET'.'$WORKER'",'\
     '\n\t\t"pass": "x"\n\t},\n\t{\n\t\t"name": "Luck Pool",\n\t\t"url"'\
     ': "stratum+tcp://na.luckpool.net:3957",\n\t\t"user": "'$WALLET'.'\
     $WORKER'",\n\t\t"pass": "x"\n\t}],\n\n\t"algo": "verus",\n\t"threa'\
-    'ds": '$(( $(nproc) - 2 ))',\n\n\t"timeout": 60,\n\n\t"api-bind": '\
+    'ds": '$THREADS',\n\n\t"timeout": 60,\n\n\t"api-bind": '\
     '"0.0.0.0",\n\t"api-remote": true,\n\n\t"no-gbt": true\n}'         \
-    > ~/.ccminer/ccminer.conf                                         &&
-announce   'Creating mining script...     '                           &&
+    > ~/.ccminer/ccminer-cpu.conf                                     &&
+cp         ~/.ccminer/ccminer-cpu.conf ~/.ccminer/ccminer-gpu.conf    &&
+sed        -i 's/"threads": [0-9]*,/"background": true,/g' ~/.ccminer/c\
+    cminer-gpu.conf
+announce   'Creating mining scripts...    '                           &&
 echo       -e '#!/bin/bash\n\n/usr/src/ccminer/ccminer -c ~/.ccminer/c'\
-    'cminer.conf' > mine.sh                                           &&
+    'cminer-cpu.conf' > mine-cpu.sh                                   &&
+echo       -e '#!/bin/bash\n\n/usr/src/ccminer/ccminer -c ~/.ccminer/c'\
+    'cminer-gpu.conf' > mine-gpu.sh                                   &&
 announce   'Changing script permissions...'                           &&
-sudo       chmod +x mine.sh                                           &&
-announce   'Installing script...          '                           &&
-sudo       cp mine.sh /usr/local/bin/mine                             &&
+sudo       chmod +x mine-cpu.sh                                       &&
+sudo       chmod +x mine-gpu.sh                                       &&
+announce   'Installing scripts...         '                           &&
+sudo       cp mine-cpu.sh /usr/local/bin/mine-cpu                     &&
+sudo       cp mine-gpu.sh /usr/local/bin/mine-gpu                     &&
 announce   'Returning to HOME...          '                           &&
 cd         ~                                                          &&
-echo       -e "Miner installed. To begin, type \"mine\"."
+echo       -e 'Miner installed. To begin, type "mine-cpu" or "mine-gpu"'
