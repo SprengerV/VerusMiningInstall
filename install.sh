@@ -13,7 +13,7 @@ sudo       apt-get update                                             &&
 announce   'Beginning system upgrade...   '                           &&
 sudo       apt-get upgrade -y                                         &&
 announce   'Installing dependencies...    '                           &&
-sudo       apt-get install nano git libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential -y          &&
+sudo       apt-get install screen nano git libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential -y          &&
 announce   'Moving to src directory...    '                           &&
 cd         /usr/src                                                   &&
 announce   'Changing permissions...       '                           &&
