@@ -38,7 +38,7 @@ sed        -i 's/"threads": [0-9]*,//g' ~/.ccminer/ccminer-gpu.conf   &&
 announce   'Creating mining scripts...    '                           &&
 echo       -e '#!/bin/bash\n\n/usr/src/ccminer/ccminer -c ~/.ccminer/ccminer-cpu.conf' > mine-cpu.sh                                   &&
 echo       -e '#!/bin/bash\n\n/usr/src/ccminer/ccminer -c ~/.ccminer/ccminer-gpu.conf' > mine-gpu.sh                                   &&
-echo       -e '#!/bin/bash\n\nscreen -dmS cpu bash -c "/usr/local/bin/mine-cpu"\nscreen -dms gpu bash -c "/usr/local/bin/mine-gpu"' > mine.sh                        &&
+echo       -e '#!/bin/bash\n\nscreen -dmS cpu bash -c "/usr/local/bin/mine-cpu"\nscreen -dmS gpu bash -c "/usr/local/bin/mine-gpu"' > mine.sh                        &&
 announce   'Changing script permissions...'                           &&
 sudo       chmod +x mine-cpu.sh                                       &&
 sudo       chmod +x mine-gpu.sh                                       &&
